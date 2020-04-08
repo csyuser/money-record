@@ -1,14 +1,13 @@
 <template>
   <div>
-    Money.vue
-    <Nav/>
+    <div>页面不存在</div>
+    <div><router-link to="/money">返回首页</router-link> </div>
   </div>
 </template>
 
 <script lang="ts">
-
   export default {
-
+    name: 'NotFound'
   };
 </script>
 
