@@ -1,40 +1,20 @@
 <template>
-  <div>
+  <div id="app">
     <router-view/>
   </div>
 </template>
 
 <style lang="scss">
-  *{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-  }
-  body{
-    line-height: 1.5;
-  }
-  a{
-    text-decoration: none;  //去掉下划线
-    color:inherit;
-  }
+  @import "~@/assets/style/reset.scss";
+  @import "~@/assets/style/helper.scss";
+
   #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-  }
-
-  #nav {
-    padding: 30px;
-
-    a {
-      font-weight: bold;
-      color: #2c3e50;
-
-      &.router-link-exact-active {
-        color: #42b983;
-      }
-    }
+    font-family: $font-hei;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333333;
+    background: #e5e5e5;
   }
 </style>

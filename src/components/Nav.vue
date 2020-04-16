@@ -8,7 +8,7 @@
       <icon name="label"/>
       标签
     </router-link>
-    <router-link to="statistics" class="item" active-class="selected">
+    <router-link to="/statistics" class="item" active-class="selected">
       <icon name="statistics"/>
       统计
     </router-link>
@@ -22,10 +22,10 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "~@/assets/style/helper.scss";
   nav {
+    @extend %outerShadow;
     display: flex;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
-
     > .item {
       width: 33.3333333%;
       display: flex;
