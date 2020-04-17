@@ -26,8 +26,15 @@ window.createTag = (name: string) => {
 window.removeTag = (id) => {
   return (tagListModel.remove(id));
 };
+window.updateTag=(id,name)=>{
+  return  tagListModel.update(id, name)
+}
+window.findTag=(id)=>{
+  return  window.tagList.filter(t => t.id === id)[0]
+}
 new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app');
+

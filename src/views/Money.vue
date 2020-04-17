@@ -1,6 +1,5 @@
 <template>
   <Layout class-prefix="layout">
-    {{record}}
     <NumberPad :value="record.amount"
                @update:value="onUpdateAmount"
                @submit="saveRecord"
@@ -24,16 +23,14 @@
   import Types from '@/components/Money/Types.vue';
   import NumberPad from '@/components/Money/NumberPad.vue';
   import recordListModel from '@/models/recordListModel';
-  import tagListModel from '@/models/tagListModel';
 
   const recordList2 = recordListModel.fetch()
-  const tagList = tagListModel.fetch()
 
   if (recordListModel.getVersion() === '0.0.2') {
     recordList2.forEach((item: RecordItem) => {
       item.createdAT = new Date(2020, 1, 1);
     });
-    recordListModel.save(recordList2);
+    recordListModel.save();
   }
   window.localStorage.setItem('version', '0.0.2');
 
@@ -44,7 +41,7 @@
   })
   export default class Money extends Vue {
 
-    tags = tagList;
+    tags = window.tagList;
     recordList: RecordItem[] = recordList2;
     record: RecordItem = {
       tags: [], notes: '', types: '-', amount: '0'
@@ -63,14 +60,12 @@
     }
 
     saveRecord() {
-      const record2= recordListModel.clone(this.record);
-      record2.createdAT = new Date();
-      this.recordList.push(record2);
+      recordListModel.create(this.record);
     }
 
     @Watch('recordList')
     onRecordChanged() {
-      recordListModel.save(this.recordList);
+      recordListModel.save();
     }
   };
 </script>

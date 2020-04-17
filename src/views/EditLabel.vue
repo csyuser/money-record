@@ -25,7 +25,6 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component, Prop} from 'vue-property-decorator';
-  import tagListModel from '@/models/tagListModel';
   import FormItem from '@/components/Money/FormItem.vue';
   import Button from '@/components/Button.vue';
 
@@ -38,9 +37,7 @@
 
     created() {
       const id = this.$route.params.id;
-      tagListModel.fetch();
-      const tags = tagListModel.data;
-      const tag = tags.filter(t => t.id === id)[0];
+      const tag = window.findTag(id);
       if (tag) {
         this.tag = tag;
       } else {
@@ -50,18 +47,13 @@
 
     updateTag(name: string) {
       if (this.tag) {
-        const result = tagListModel.update(this.tag.id, name);
-        if (result === 'duplicated') {
-          window.alert('标签名重复，请重新输入');
-          return;
-        }
-        tagListModel.save();
+        window.updateTag(this.tag.id,name)
       }
     }
 
     removeTag() {
-      if (this.tag &&  window.removeTag(this.tag.id)) {
-       this.back()
+      if (this.tag && window.removeTag(this.tag.id)) {
+        this.back();
       }
     }
 
