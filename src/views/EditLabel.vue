@@ -11,7 +11,7 @@
     <div class="form-wrapper">
       <FormItem field-name="标签名"
                 placeholder="请输入标签"
-                :value="tag.name"
+                :value="currentTag.name"
                 @update:value="updateTag"
       />
     </div>
@@ -29,32 +29,33 @@
   import Button from '@/components/Button.vue';
 
   @Component({
-    components: {Button, FormItem}
+    components: {Button, FormItem},
   })
   export default class editLabel extends Vue {
-    tag?: { id: string, name: string } = undefined;
     @Prop({default: ''}) readonly value!: string;
+
+    get currentTag(){
+      return this.$store.state.currentTag
+    }
 
     created() {
       const id = this.$route.params.id;
-      const tag = window.findTag(id);
-      if (tag) {
-        this.tag = tag;
-      } else {
-        this.$router.replace('/404');
+      this.$store.commit('fetchTags')
+      this.$store.commit('findTag',id)
+      if (!this.currentTag) {
+        this.$router.replace('/404')
       }
     }
 
     updateTag(name: string) {
-      if (this.tag) {
-        window.updateTag(this.tag.id,name)
+      if (this.currentTag) {
+        this.$store.commit('updateTag',{id:this.currentTag.id,name:name})
       }
     }
 
     removeTag() {
-      if (this.tag && window.removeTag(this.tag.id)) {
-        this.back();
-      }
+      this.$store.commit('removeTag',this.currentTag.id)
+      this.back();
     }
 
     back() {

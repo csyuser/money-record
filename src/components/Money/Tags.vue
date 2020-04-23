@@ -1,11 +1,12 @@
 <template>
   <div class="tags">
     <ul class="current">
-      <li v-for="tag in dataSource"
+      <li v-for="tag in tagList"
           :key="tag.id"
           :class="{selected:selectedTags.indexOf(tag.name)>=0} "
           @click="toggle(tag.name)"
       >{{tag.name}}
+
       </li>
     </ul>
     <div class="new">
@@ -16,12 +17,22 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component, Prop} from 'vue-property-decorator';
+  import {Component} from 'vue-property-decorator';
 
-  @Component
+  @Component({
+    computed:{
+      tagList (){
+        return this.$store.state.tagList
+      }
+    }
+  })
   export default class Tags extends Vue {
-    @Prop() readonly dataSource: string[] | undefined;
+    // tagList=store2.fetchTags()
     selectedTags: string[] = [];
+
+    created() {
+      this.$store.commit('fetchTags');
+    }
 
     toggle(tag: string) {
       const index = this.selectedTags.indexOf(tag);
@@ -35,11 +46,11 @@
 
     create() {
       const name = window.prompt('请输入标签名');
-      if (name === '') {
-        window.alert('请输入标签名');
-      } else if (this.dataSource) {
-        this.$emit('update:dataSource', [...this.dataSource, name]);
+      if (!name) {
+        return  window.alert('请输入标签名');
       }
+      this.$store.commit('createTag',name)
+      // store2.createTag(name)
     }
   };
 </script>

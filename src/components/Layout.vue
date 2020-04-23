@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="js">
   export default {
     name: 'Layout',
     props: ['classPrefix']

@@ -1,9 +1,9 @@
 type RecordItem = {
-  tags: string[]
+  tags: Tag[]
   notes: string
   types: string
   amount: string
-  createdAT?:Date
+  createdAT?:string
 }
 
 type TagListModel = {
@@ -20,14 +20,13 @@ type Tag = {
 }
 
 interface Window {
+
+}
+
+type RootState = {
+  recordList: RecordItem[],
   tagList: Tag[]
-  createTag: (name: string) => void
-  removeTag: (id: string) => boolean
-  updateTag: (id: string, name: string) => 'success' | 'not find' | 'duplicated'
-  findTag: (id: string) => Tag | undefined
-  //recordListModel
-  recordList:RecordItem[]
-  createRecordList:(record:RecordItem)=>void
+  currentTag?: Tag
 }
 
 
