@@ -1,6 +1,9 @@
 const path =require ('path') //引入一个path模块，是nodejs的一个模块，可以用来做path
 
 module.exports = {
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/money-record-website/'
+    : '/',
   lintOnSave: false,
   chainWebpack: config =>{
     const dir = path.resolve(__dirname, 'src/assets/icons') //确定icon所在的目录，__dirname当前目录的意思

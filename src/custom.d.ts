@@ -2,7 +2,7 @@ type RecordItem = {
   tags: Tag[]
   notes: string
   types: string
-  amount: string
+  amount: number
   createdAT?:string
 }
 
@@ -25,8 +25,9 @@ interface Window {
 
 type RootState = {
   recordList: RecordItem[],
-  tagList: Tag[]
-  currentTag?: Tag
+  tagList: Tag[],
+  currentTag?: Tag,
+  createTagError:Error | null
 }
 
 

@@ -3,8 +3,8 @@
     <ul class="current">
       <li v-for="tag in tagList"
           :key="tag.id"
-          :class="{selected:selectedTags.indexOf(tag.name)>=0} "
-          @click="toggle(tag.name)"
+          :class="{selected:selectedTags.indexOf(tag)>=0} "
+          @click="toggle(tag)"
       >{{tag.name}}
 
       </li>
@@ -28,13 +28,13 @@
   })
   export default class Tags extends Vue {
     // tagList=store2.fetchTags()
-    selectedTags: string[] = [];
+    selectedTags: Tag[] = [];
 
     created() {
       this.$store.commit('fetchTags');
     }
 
-    toggle(tag: string) {
+    toggle(tag: Tag) {
       const index = this.selectedTags.indexOf(tag);
       if (index >= 0) {
         this.selectedTags.splice(index, 1);
@@ -45,11 +45,19 @@
     }
 
     create() {
+      const map:{[key:string]:string} ={
+        'tag name duplicated':'标签名重复'
+      }
       const name = window.prompt('请输入标签名');
       if (!name) {
         return  window.alert('请输入标签名');
       }
       this.$store.commit('createTag',name)
+      if (this.$store.state.createTagError===null){
+        window.alert('标签添加成功')
+      }else {
+        window.alert(map[this.$store.state.createTagError.message] || '未知报错')
+      }
       // store2.createTag(name)
     }
   };

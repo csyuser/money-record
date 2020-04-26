@@ -8,12 +8,12 @@
     <div class="inputNotes">
       <FormItem field-name="备注"
                 placeholder="请输入备注"
+                :value="record.notes"
                 @update:value="onUpdateNotes"/>
     </div>
-    <Tags/>
+    <Tags @update:value="record.tags=$event"/>
   </Layout>
 </template>
-
 <script lang="ts">
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
@@ -36,25 +36,33 @@
   export default class Money extends Vue {
 
     record: RecordItem = {
-      tags: [], notes: '', types: '-', amount: '0'
+      tags: [], notes: '', types: '-', amount: 0
     };
 
-    typeList=typeList
+    typeList = typeList;
 
     beforeCreate() {
       this.$store.commit('fetchRecords');
     }
 
+    onUpdateTags(value: Tag[]) {
+      this.record.tags = value;
+    }
+
+
     onUpdateNotes(value: string) {
       this.record.notes = value;
     }
 
-    onUpdateAmount(value: string) {
+    onUpdateAmount(value: number) {
       this.record.amount = value;
     }
 
     saveRecord() {
+      if (this.record.tags.length<=0){
+        return window.alert('请至少选择一个标签')}
       this.$store.commit('createRecordList', this.record);
+      this.record.notes=''
     }
 
   };
