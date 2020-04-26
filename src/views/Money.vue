@@ -11,7 +11,11 @@
                 :value="record.notes"
                 @update:value="onUpdateNotes"/>
     </div>
-    <Tags @update:value="record.tags=$event"/>
+    <Tags @update:value="record.tags=$event"
+          :is-submit="isSubmit"
+          @update:isSubmit="onUpdateIsSubmit"
+
+    />
   </Layout>
 </template>
 <script lang="ts">
@@ -39,6 +43,8 @@
       tags: [], notes: '', types: '-', amount: 0
     };
 
+    isSubmit: boolean = false;
+
     typeList = typeList;
 
     beforeCreate() {
@@ -58,11 +64,18 @@
       this.record.amount = value;
     }
 
+    onUpdateIsSubmit(value: boolean) {
+      this.isSubmit = value;
+    }
+
     saveRecord() {
-      if (this.record.tags.length<=0){
-        return window.alert('请至少选择一个标签')}
+      if (this.record.tags.length <= 0) {
+        return window.alert('请至少选择一个标签');
+      }
       this.$store.commit('createRecordList', this.record);
-      this.record.notes=''
+      this.record.notes = '';
+      this.isSubmit = true;
+      // this.$refs.tagComponents.selectedTags = [];
     }
 
   };

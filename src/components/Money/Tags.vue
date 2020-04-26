@@ -17,18 +17,20 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component} from 'vue-property-decorator';
+  import {Component, Prop, Watch} from 'vue-property-decorator';
 
   @Component({
-    computed:{
-      tagList (){
-        return this.$store.state.tagList
+    computed: {
+      tagList() {
+        return this.$store.state.tagList;
       }
     }
   })
   export default class Tags extends Vue {
     // tagList=store2.fetchTags()
     selectedTags: Tag[] = [];
+
+    @Prop(Boolean) isSubmit!: boolean;
 
     created() {
       this.$store.commit('fetchTags');
@@ -41,22 +43,28 @@
       } else {
         this.selectedTags.push(tag);
       }
-      this.$emit('update:value',this.selectedTags)
+      this.$emit('update:value', this.selectedTags);
+    }
+
+    @Watch('isSubmit')
+    onIsSubmitChanged(value:boolean,oldValue:boolean) {
+      if (this.isSubmit){this.selectedTags=[]}
+      this.$emit('update:isSubmit',false);
     }
 
     create() {
-      const map:{[key:string]:string} ={
-        'tag name duplicated':'标签名重复'
-      }
+      const map: { [key: string]: string } = {
+        'tag name duplicated': '标签名重复'
+      };
       const name = window.prompt('请输入标签名');
       if (!name) {
-        return  window.alert('请输入标签名');
+        return window.alert('请输入标签名');
       }
-      this.$store.commit('createTag',name)
-      if (this.$store.state.createTagError===null){
-        window.alert('标签添加成功')
-      }else {
-        window.alert(map[this.$store.state.createTagError.message] || '未知报错')
+      this.$store.commit('createTag', name);
+      if (this.$store.state.createTagError === null) {
+        window.alert('标签添加成功');
+      } else {
+        window.alert(map[this.$store.state.createTagError.message] || '未知报错');
       }
       // store2.createTag(name)
     }
@@ -69,9 +77,11 @@
     font-size: 14px;
     padding: 16px 16px 6px 16px;
     flex-grow: 1;
+
     > .current {
       display: flex;
       flex-wrap: wrap;
+
       > li {
         $bg: #d9d9d9;
         background: $bg;
