@@ -40,7 +40,7 @@
         height:32px;
       }
     >.selected{
-      color: red;
+      color: #327cc5;
     }
   }
 </style>

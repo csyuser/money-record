@@ -11,7 +11,7 @@
             <span>￥{{group.total}}</span>
           </h3>
           <ol>
-            <li v-for="item in group.items" class="record">
+            <li v-for="(item,index) in group.items" class="record" :key="index">
               <span>{{tagString(item.tags)}}</span>
               <span class="notes">{{item.notes}}</span>
               <span>￥{{item.amount}}</span>
@@ -34,15 +34,15 @@
   import clone from '@/lib/clone';
 
   type Result = {
-    title: string,
-    items: RecordItem[]
-    total?: number
+    title: string;
+    items: RecordItem[];
+    total?: number;
   }[]
 
   @Component({
     components: {Tabs}
   })
-  export default class statistics extends Vue {
+  export default class Statistics extends Vue {
     get recordList() {
       return (this.$store.state as RootState).recordList;
     }
@@ -100,7 +100,7 @@
 
     initialType = '-';
     recordTypeList = typeList;
-  };
+  }
 
 
 </script>
@@ -110,12 +110,13 @@
     .xxx-tab-item {
       background: #c4c4c4;
 
-      &.selected {
-        background: white;
-      }
+      // &.selected {
+      //   background: white;
+      // }
 
       &::after {
-        display: none;
+        // display: none;
+        background: #409eff;
       }
     }
 
@@ -148,7 +149,7 @@
     color: #999999;
   }
   .noRecord{
-    padding: 16px;
+    padding: 100px;
     text-align: center;
   }
 </style>
