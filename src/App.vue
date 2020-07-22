@@ -17,5 +17,7 @@
     line-height: 1.5;
     color: #333333;
     background: #e5e5e5;
+    max-width: 500px;
+    margin: 0 auto;
   }
 </style>
